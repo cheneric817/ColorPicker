@@ -1,1 +1,22 @@
 /* CSS file for colorGame.html */
+
+body {
+  background-color: #232323;
+}
+
+.square {
+  background: purple;
+  width: 30%;
+  padding-bottom: 30%;
+  float: left;
+  margin: 1.66%;
+}
+
+#container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: white;
+}

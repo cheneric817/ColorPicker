@@ -21,6 +21,10 @@ h1 {
   color: white;
 }
 
-#message {
-  color: white;
+
+
+#stripe {
+  text-align: center;
+  background: white;
+  height: 30px
 }

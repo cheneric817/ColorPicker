@@ -11,7 +11,23 @@ var colorDisplay = document.getElementById("colorDisplay");
 var messageDisplay = document.querySelector("#message");
 //select h1
 var h1 = document.querySelector("h1");
+//select the "New Color" button
+var resetButton = document.querySelector("#reset");
 
+//setup reset button
+resetButton.addEventListener("click", function(){
+  //generate all new color
+  colors = generateRandomColors(6);
+  //pick a new random color grom array
+  pickedColor = pickColor();
+  //change colorDisplay to match pickedColor
+  colorDisplay.textContent = pickedColor;
+  //change colors of squares
+  for(i = 0; i < squares.length; i++) {
+    squares[i].style.background = colors[i];
+  }
+  h1.style.background = "#232323";
+})
 
 //make the h1 topic display the RGB data of pickedColor
 colorDisplay.textContent = pickedColor;
@@ -29,6 +45,8 @@ for(i = 0; i < squares.length ; i++) {
       messageDisplay.textContent = "Correct!";
       changeColors(clickedColor);
       h1.style.background = clickedColor;
+      //add in "play again?" button
+      resetButton.textContent = "Play Again?";
     } else {
       //if clicked on the wrong one, it fades out to the background
       this.style.background = "#232323";

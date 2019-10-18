@@ -13,6 +13,43 @@ var messageDisplay = document.querySelector("#message");
 var h1 = document.querySelector("h1");
 //select the "New Color" button
 var resetButton = document.querySelector("#reset");
+//select the easy & hard button
+var easyBtn = document.querySelector("#easyBtn");
+var hardBtn = document.querySelector("#hardBtn");
+
+
+//easy button
+easyBtn.addEventListener("click", function() {
+  hardBtn.classList.remove("selected");
+  easyBtn.classList.add("selected");
+  colors = generateRandomColors(3);
+  pickedColor = pickColor();
+  colorDisplay.textContent = pickedColor;
+
+  for(i = 0; i< squares.length; i++) {
+    if(colors[i]) {
+      squares[i].style.background = colors[i];
+    } else {
+      squares[i].style.display = "none";
+    }
+  }
+})
+
+
+//hard button
+hardBtn.addEventListener("click", function() {
+  easyBtn.classList.remove("selected");
+  hardBtn.classList.add("selected");
+  colors = generateRandomColors(6);
+  pickedColor = pickColor();
+  colorDisplay.textContent = pickedColor;
+
+  for(i = 0; i< squares.length; i++) {
+    squares[i].style.background = colors[i];
+    squares[i].style.display = "block";
+  }
+})
+
 
 //setup reset button
 resetButton.addEventListener("click", function(){
@@ -26,8 +63,10 @@ resetButton.addEventListener("click", function(){
   for(i = 0; i < squares.length; i++) {
     squares[i].style.background = colors[i];
   }
+  //reset h1 background to background color
   h1.style.background = "#232323";
 })
+
 
 //make the h1 topic display the RGB data of pickedColor
 colorDisplay.textContent = pickedColor;

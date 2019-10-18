@@ -2,11 +2,11 @@
 //generate number of squares for each mode
 var numberSquares = 6;
 //generate random colors
-var colors = generateRandomColors(numberSquares);
+var colors = [];
+//pick a random color
+var pickedColor;
 //select the squares
 var squares = document.querySelectorAll(".square");
-//pick a random color
-var pickedColor = pickColor();
 //select the <span> "colorDisplay" from the HTML doc
 var colorDisplay = document.getElementById("colorDisplay");
 //select the <span> "message" from the HTML doc
@@ -17,28 +17,63 @@ var h1 = document.querySelector("h1");
 var resetButton = document.querySelector("#reset");
 var modeButtons = document.querySelectorAll(".mode");
 
-//loop through modeButtons
-for(i = 0; i < modeButtons.length; i++) {
-  modeButtons[i].addEventListener ("click", function() {
-    //the following two lines are usded to cancel the "selected" class after clicking one the modeButtons
-    modeButtons[0].classList.remove("selected");
-    modeButtons[1].classList.remove("selected");
-    //after removeing the "selected" class on both buttons, add the following line to add the "selected" class to the one that is clicked on
-    this.classList.add("selected");
-    if (this.textContent === "Easy") {
-      numberSquares = 3;
-    } else {
-      numberSquares = 6;
-    }
+//run the init() function to setup the modeButtons listeners and square listeners
+init();
 
-    reset();
-  })
+
+function init() {
+  setupModeButtons();
+  setupSquares();
+  reset();
+}
+
+function setupModeButtons() {
+  //loop through modeButtons
+  for(i = 0; i < modeButtons.length; i++) {
+    modeButtons[i].addEventListener ("click", function() {
+      //the following two lines are usded to cancel the "selected" class after clicking one the modeButtons
+      modeButtons[0].classList.remove("selected");
+      modeButtons[1].classList.remove("selected");
+      //after removeing the "selected" class on both buttons, add the following line to add the "selected" class to the one that is clicked on
+      this.classList.add("selected");
+      if (this.textContent === "Easy") {
+        numberSquares = 3;
+      } else {
+        numberSquares = 6;
+      }
+      reset();
+    })
+  }
+}
+
+function setupSquares() {
+  for(i = 0; i < squares.length ; i++) {
+    //add initial colors to squares
+    squares[i].style.background = colors[i];
+    squares[i].addEventListener("click", function() {
+      //get color of clicked square
+      var clickedColor = (this.style.background);
+      if(clickedColor === pickedColor) {
+        //display correct message & change h1 background to correct color
+        messageDisplay.textContent = "Correct!";
+        changeColors(clickedColor);
+        h1.style.background = clickedColor;
+        //add in "play again?" button
+        resetButton.textContent = "Play Again?";
+      } else {
+        //if clicked on the wrong one, it fades out to the background
+        this.style.background = "#232323";
+        //display messageDisplay when gussed wrong
+        messageDisplay.textContent = "Try Again";
+      }
+    });
+  }
 }
 
 function reset() {
     //generate all new color
     colors = generateRandomColors(numberSquares);
-    //pick a new random color grom array
+    //pick a new random color from array
     pickedColor = pickColor();
     //change colorDisplay to match pickedColor
     colorDisplay.textContent = pickedColor;
@@ -61,73 +96,10 @@ function reset() {
     h1.style.background = "steelblue";
 }
 
-// //easy button
-// easyBtn.addEventListener("click", function() {
-//   hardBtn.classList.remove("selected");
-//   easyBtn.classList.add("selected");
-//   numberSquares = 3;
-//   colors = generateRandomColors(numberSquares);
-//   pickedColor = pickColor();
-//   colorDisplay.textContent = pickedColor;
-//
-//   for(i = 0; i< squares.length; i++) {
-//     if(colors[i]) {
-//       squares[i].style.background = colors[i];
-//     } else {
-//       squares[i].style.display = "none";
-//     }
-//   }
-// })
-//
-//
-// //hard button
-// hardBtn.addEventListener("click", function() {
-//   easyBtn.classList.remove("selected");
-//   hardBtn.classList.add("selected");
-//   numberSquares = 6;
-//   colors = generateRandomColors(numberSquares);
-//   pickedColor = pickColor();
-//   colorDisplay.textContent = pickedColor;
-//
-//   for(i = 0; i< squares.length; i++) {
-//     squares[i].style.background = colors[i];
-//     squares[i].style.display = "block";
-//   }
-// })
-
-
 //setup reset button
 resetButton.addEventListener("click", function(){
   reset();
 })
-
-
-//make the h1 topic display the RGB data of pickedColor
-colorDisplay.textContent = pickedColor;
-//assign the squares different colors
-for(i = 0; i < squares.length ; i++) {
-  //add initial colors to squares
-  squares[i].style.background = colors[i];
-  //add click listeners to squares
-  squares[i].addEventListener("click", function() {
-    //get color of clicked square
-    var clickedColor = (this.style.background);
-    //compare color to pickedColor
-    if(clickedColor === pickedColor) {
-      //display correct message & change h1 background to correct color
-      messageDisplay.textContent = "Correct!";
-      changeColors(clickedColor);
-      h1.style.background = clickedColor;
-      //add in "play again?" button
-      resetButton.textContent = "Play Again?";
-    } else {
-      //if clicked on the wrong one, it fades out to the background
-      this.style.background = "#232323";
-      //display messageDisplay when gussed wrong
-      messageDisplay.textContent = "Try Again";
-    }
-  });
-}
 
 
 //create a function that make all squares changes to the correct color when the guessing is correct
@@ -139,11 +111,13 @@ function changeColors(color) {
   }
 }
 
+
 function pickColor() {
   //use Math.random to generate a random number from the colors array
   var random = Math.floor(Math.random() * colors.length);
   return colors[random];
 }
+
 
 //create a function that generate random colors
 function generateRandomColors(num) {
@@ -157,6 +131,7 @@ function generateRandomColors(num) {
   //return the array
   return arr;
 }
+
 
 //create a function to generate random RGB values
 function randomColor(){

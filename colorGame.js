@@ -15,60 +15,90 @@ var messageDisplay = document.querySelector("#message");
 var h1 = document.querySelector("h1");
 //select the "New Color" button
 var resetButton = document.querySelector("#reset");
-//select the easy & hard button
-var easyBtn = document.querySelector("#easyBtn");
-var hardBtn = document.querySelector("#hardBtn");
+var modeButtons = document.querySelectorAll(".mode");
 
-
-//easy button
-easyBtn.addEventListener("click", function() {
-  hardBtn.classList.remove("selected");
-  easyBtn.classList.add("selected");
-  numberSquares = 3;
-  colors = generateRandomColors(numberSquares);
-  pickedColor = pickColor();
-  colorDisplay.textContent = pickedColor;
-
-  for(i = 0; i< squares.length; i++) {
-    if(colors[i]) {
-      squares[i].style.background = colors[i];
+//loop through modeButtons
+for(i = 0; i < modeButtons.length; i++) {
+  modeButtons[i].addEventListener ("click", function() {
+    //the following two lines are usded to cancel the "selected" class after clicking one the modeButtons
+    modeButtons[0].classList.remove("selected");
+    modeButtons[1].classList.remove("selected");
+    //after removeing the "selected" class on both buttons, add the following line to add the "selected" class to the one that is clicked on
+    this.classList.add("selected");
+    if (this.textContent === "Easy") {
+      numberSquares = 3;
     } else {
-      squares[i].style.display = "none";
+      numberSquares = 6;
     }
-  }
-})
 
+    reset();
+  })
+}
 
-//hard button
-hardBtn.addEventListener("click", function() {
-  easyBtn.classList.remove("selected");
-  hardBtn.classList.add("selected");
-  numberSquares = 6;
-  colors = generateRandomColors(numberSquares);
-  pickedColor = pickColor();
-  colorDisplay.textContent = pickedColor;
+function reset() {
+    //generate all new color
+    colors = generateRandomColors(numberSquares);
+    //pick a new random color grom array
+    pickedColor = pickColor();
+    //change colorDisplay to match pickedColor
+    colorDisplay.textContent = pickedColor;
+    //make messageDisplay goes away once we clicked on "Play Again?"
+    messageDisplay.textContent = "";
+    //After clicking "Play Again?", change the button text back to "New Colors"
+    resetButton.textContent = "New Colors";
+    //change colors of squares
+    //use the for loop to check if there are three squares or six squares
+    for(i = 0; i < squares.length; i++) {
+      //if there's a color, display it, if not, don't display it
+      if (colors[i]) {
+        squares[i].style.display = "block"; //make sure all six sqaures are visible when playing hard mode
+        squares[i].style.background = colors[i];
+      } else {
+        squares[i].style.display = "none";
+      }
+    }
+    //reset h1 background to background color
+    h1.style.background = "steelblue";
+}
 
-  for(i = 0; i< squares.length; i++) {
-    squares[i].style.background = colors[i];
-    squares[i].style.display = "block";
-  }
-})
+// //easy button
+// easyBtn.addEventListener("click", function() {
+//   hardBtn.classList.remove("selected");
+//   easyBtn.classList.add("selected");
+//   numberSquares = 3;
+//   colors = generateRandomColors(numberSquares);
+//   pickedColor = pickColor();
+//   colorDisplay.textContent = pickedColor;
+//
+//   for(i = 0; i< squares.length; i++) {
+//     if(colors[i]) {
+//       squares[i].style.background = colors[i];
+//     } else {
+//       squares[i].style.display = "none";
+//     }
+//   }
+// })
+//
+//
+// //hard button
+// hardBtn.addEventListener("click", function() {
+//   easyBtn.classList.remove("selected");
+//   hardBtn.classList.add("selected");
+//   numberSquares = 6;
+//   colors = generateRandomColors(numberSquares);
+//   pickedColor = pickColor();
+//   colorDisplay.textContent = pickedColor;
+//
+//   for(i = 0; i< squares.length; i++) {
+//     squares[i].style.background = colors[i];
+//     squares[i].style.display = "block";
+//   }
+// })
 
 
 //setup reset button
 resetButton.addEventListener("click", function(){
-  //generate all new color
-  colors = generateRandomColors(numberSquares);
-  //pick a new random color grom array
-  pickedColor = pickColor();
-  //change colorDisplay to match pickedColor
-  colorDisplay.textContent = pickedColor;
-  //change colors of squares
-  for(i = 0; i < squares.length; i++) {
-    squares[i].style.background = colors[i];
-  }
-  //reset h1 background to background color
-  h1.style.background = "steelblue";
+  reset();
 })
 
 

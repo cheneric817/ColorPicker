@@ -1,6 +1,8 @@
 //JS file for colorGame.html
+//generate number of squares for each mode
+var numberSquares = 6;
 //generate random colors
-var colors = generateRandomColors(6);
+var colors = generateRandomColors(numberSquares);
 //select the squares
 var squares = document.querySelectorAll(".square");
 //pick a random color
@@ -22,7 +24,8 @@ var hardBtn = document.querySelector("#hardBtn");
 easyBtn.addEventListener("click", function() {
   hardBtn.classList.remove("selected");
   easyBtn.classList.add("selected");
-  colors = generateRandomColors(3);
+  numberSquares = 3;
+  colors = generateRandomColors(numberSquares);
   pickedColor = pickColor();
   colorDisplay.textContent = pickedColor;
 
@@ -40,7 +43,8 @@ easyBtn.addEventListener("click", function() {
 hardBtn.addEventListener("click", function() {
   easyBtn.classList.remove("selected");
   hardBtn.classList.add("selected");
-  colors = generateRandomColors(6);
+  numberSquares = 6;
+  colors = generateRandomColors(numberSquares);
   pickedColor = pickColor();
   colorDisplay.textContent = pickedColor;
 
@@ -54,7 +58,7 @@ hardBtn.addEventListener("click", function() {
 //setup reset button
 resetButton.addEventListener("click", function(){
   //generate all new color
-  colors = generateRandomColors(6);
+  colors = generateRandomColors(numberSquares);
   //pick a new random color grom array
   pickedColor = pickColor();
   //change colorDisplay to match pickedColor
@@ -64,7 +68,7 @@ resetButton.addEventListener("click", function(){
     squares[i].style.background = colors[i];
   }
   //reset h1 background to background color
-  h1.style.background = "#232323";
+  h1.style.background = "steelblue";
 })
 
 
